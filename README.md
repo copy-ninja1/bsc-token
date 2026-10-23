@@ -4,6 +4,8 @@ This repository contains an ERC-20 token for BNB Smart Chain. The default name i
 
 This token is an independent asset. It is not Bitcoin, it is not issued by Binance, and it is not backed by Bitcoin. The symbol is configuration, not a claim of identity.
 
+The person who will own the token should start with [Deploy the token yourself](docs/DEPLOY-YOURSELF.md). That guide is written for a first deployment. It explains why the command has to be run from the owner's own computer, then walks through the Hardhat steps from installing Node.js to checking the result on BscScan.
+
 The implementation follows the supplied `TokenV2` reference where that behavior is explicit and safe to reproduce. Differences, including security fixes, are listed in [docs/REFERENCE-COMPATIBILITY.md](docs/REFERENCE-COMPATIBILITY.md).
 
 ## Token configuration
