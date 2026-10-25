@@ -75,7 +75,7 @@ The ERC-1967 implementation and admin slots are checked after deployment. The to
 - The token owner can transfer or renounce token ownership and can call `removeTransferConstraints`.
 - The proxy admin owner can upgrade the implementation through `ProxyAdmin`.
 
-This repository does not ship an upgrade execution script. The absence of a script does not remove the proxy admin's power.
+`npm run proxy:upgrade:mainnet` is the upgrade command. It sends a transaction only after the current layout has been recorded and the compiled source has changed. The proxy admin's power exists whether or not that command is used.
 
 `TokenV2` is not UUPS. The reference has no `_authorizeUpgrade` function, so a UUPS proxy would not match it.
 

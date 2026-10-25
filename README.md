@@ -68,7 +68,10 @@ npm run compile
 npm run test
 npm run typecheck
 npm run lint
+npm run security:check
 ```
+
+`security:check` runs [Slither](https://github.com/crytic/slither) on the Hardhat project. The first run creates `.venv` and installs the version pinned in `requirements-dev.txt`. A Slither report is not an audit.
 
 Coverage:
 
@@ -119,6 +122,14 @@ npm run deploy:mainnet
 
 Read [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md) before using it. This repository does not submit a mainnet transaction on its own.
 
+Adding PancakeSwap liquidity is also separate. It spends the token and BTCB from the signer, and it leaves the LP tokens in that wallet:
+
+```bash
+npm run liquidity:add:mainnet
+```
+
+The other mainnet commands are `liquidity:remove:mainnet`, `liquidity:lock:mainnet`, `liquidity:inspect:mainnet`, `swap:mainnet`, `balance:mainnet`, `supply:mainnet`, `allowance:mainnet`, `approval:revoke:mainnet`, `token:transfer:mainnet`, `token:burn:mainnet`, `pause:mainnet`, `unpause:mainnet`, `ownership:transfer:mainnet`, `ownership:renounce:mainnet`, and `proxy:upgrade:mainnet`. Read [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md) and [docs/ADD-LIQUIDITY.md](docs/ADD-LIQUIDITY.md) before running them. Deployment does not run these commands.
+
 ## After deployment
 
 ```bash
@@ -136,6 +147,8 @@ npm run constraints:remove:testnet
 
 - Remix: [docs/REMIX.md](docs/REMIX.md)
 - BscScan: [docs/VERIFICATION.md](docs/VERIFICATION.md)
+- Liquidity: [docs/ADD-LIQUIDITY.md](docs/ADD-LIQUIDITY.md)
+- Logos and listings: [docs/LISTING.md](docs/LISTING.md)
 - Architecture: [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md)
 - Token behavior: [docs/TOKENOMICS.md](docs/TOKENOMICS.md)
 - Risks: [docs/SECURITY.md](docs/SECURITY.md)

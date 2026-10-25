@@ -66,5 +66,5 @@ The owner cannot bypass the restriction. There is no blacklist, whitelist, or hi
 - It does not custody or redeem Bitcoin.
 - It does not mint after initialization in this implementation.
 - It does not take a transfer fee.
-- It does not add or lock liquidity.
+- It does not add or lock liquidity. A pair is created later, from a wallet, as described in [ADD-LIQUIDITY.md](ADD-LIQUIDITY.md).
 - It does not verify itself or audit itself.

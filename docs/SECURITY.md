@@ -2,6 +2,14 @@
 
 This repository has not been independently audited. Tests, compiler checks, and OpenZeppelin's upgrade validator are not a substitute for an audit. A verified source listing on BscScan is also not an audit.
 
+Static analysis:
+
+```bash
+npm run security:check
+```
+
+That command runs Slither through Hardhat. It installs `slither-analyzer` 0.11.3 into `.venv` on the first run. Findings are filtered to the project contracts. OpenZeppelin sources under `node_modules` are dependencies, not the report target. A clean or noisy Slither run is still not an audit.
+
 ## Privileged roles
 
 | Role | What it can do |
@@ -81,4 +89,4 @@ slither . --compile-force-framework hardhat
 
 ## Behaviors deliberately not included
 
-Hidden minting, undisclosed blacklists, transfer taxes, stealth sell blocks, fake volume, fake liquidity locks, automatic liquidity, automatic renouncement, and private-key logging are not implemented.
+Hidden minting, undisclosed blacklists, transfer taxes, stealth sell blocks, fake volume, fake liquidity locks, automatic liquidity, automatic renouncement, and private-key logging are not implemented. `liquidity:lock:mainnet` does not lock tokens inside this contract. It sends LP tokens to PinkLock and `liquidity:inspect:mainnet` reads that lock back.

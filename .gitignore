@@ -1,4 +1,5 @@
 node_modules/
+.venv/
 artifacts/
 cache/
 coverage/
@@ -9,6 +10,7 @@ typechain-types/
 .env.*
 !.env.example
 deployments/*.json
-.openzeppelin/
+.openzeppelin/unknown-31337.json
 *.log
 .DS_Store
+docs/*

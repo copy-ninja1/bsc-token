@@ -116,7 +116,7 @@ CONFIRM_REMOVE_CONSTRAINTS=true npm run constraints:remove:testnet
 
 Mainnet also needs `CONFIRM_MAINNET_DEPLOYMENT=true`. The prompt phrase is `REMOVE`. Non-interactive use sets `DEPLOY_CONFIRMATION=REMOVE`.
 
-Removal does not add liquidity.
+Removal does not add liquidity. Adding a PancakeSwap pair is a separate confirmed command. See [ADD-LIQUIDITY.md](ADD-LIQUIDITY.md).
 
 ## Records
 
@@ -124,8 +124,67 @@ Removal does not add liquidity.
 
 Do not treat a record as success if the script exited with an error. A failed run should not write the final file because the write happens after the state checks.
 
-## Ownership transfer
+## Other mainnet commands
 
-There is no ownership-transfer script, so it cannot run accidentally. From the token owner, the contract method is `transferOwnership(newOwner)`. The new owner must be an address you control. `renounceOwnership()` sets the owner to the zero address and cannot be undone.
+Each command below runs only on BNB Smart Chain mainnet. It requires `CONFIRM_MAINNET_DEPLOYMENT=true`, its own confirmation flag, and the phrase shown. A non-interactive shell also sets `DEPLOY_CONFIRMATION` to that phrase. The signer is `PRIVATE_KEY`. `TOKEN_ADDRESS` overrides the proxy in `deployments/bsc.json`. Leave it empty to use that record.
 
-Proxy admin ownership is separate. It lives on the `ProxyAdmin` contract recorded in the deployment file. Changing it is an irreversible operational decision and is not automated here.
+| Command | Flag | Phrase | What it does |
+| --- | --- | --- | --- |
+| `npm run liquidity:add:mainnet` | `CONFIRM_ADD_LIQUIDITY` | `ADD` | Deposits the token and BTCB. See [ADD-LIQUIDITY.md](ADD-LIQUIDITY.md). |
+| `npm run liquidity:remove:mainnet` | `CONFIRM_REMOVE_LIQUIDITY` | `REMOVE_LIQUIDITY` | Returns the signer's deposit. Set `LIQUIDITY_LP_AMOUNT` or leave it empty to withdraw all LP tokens. |
+| `npm run swap:mainnet` | `CONFIRM_SWAP` | `SWAP` | One swap. Set `SWAP_QUOTE_AMOUNT` or `SWAP_BTCB_AMOUNT` to spend BTCB, or `SWAP_TOKEN_AMOUNT` to spend the token. |
+| `npm run token:transfer:mainnet` | `CONFIRM_TRANSFER` | `TRANSFER` | Sends `TRANSFER_AMOUNT` of the token to `TRANSFER_TO`. |
+| `npm run ownership:transfer:mainnet` | `CONFIRM_TRANSFER_OWNERSHIP` | `TRANSFER_OWNERSHIP` | Sets the token owner to `NEW_OWNER`. The new owner must be a wallet you control. |
+| `npm run ownership:renounce:mainnet` | `CONFIRM_RENOUNCE_OWNERSHIP` | `RENOUNCE` | Sets the token owner to the zero address. This cannot be undone. |
+| `npm run proxy:upgrade:mainnet` | `CONFIRM_UPGRADE` | `UPGRADE` | Points the proxy at the compiled `TokenV2`. The signer must own the proxy admin. |
+| `npm run balance:mainnet` | | | Prints `BALANCE_ACCOUNT` or the signer's token and BNB balances. No transaction. |
+| `npm run supply:mainnet` | | | Prints the current supply and the supply minted at initialization. No transaction. |
+| `npm run allowance:mainnet` | | | Prints the allowance from `ALLOWANCE_OWNER` to `SPENDER`. No transaction. |
+| `npm run approval:revoke:mainnet` | `CONFIRM_REVOKE_APPROVAL` | `REVOKE` | Sets the signer's allowance for `SPENDER` to zero. |
+| `npm run liquidity:inspect:mainnet` | | | Reads PinkLock for this pair. No transaction. |
+| `npm run liquidity:lock:mainnet` | `CONFIRM_LOCK_LIQUIDITY` | `LOCK` | Sends LP tokens to PinkLock until `LOCK_DAYS` or `LOCK_UNLOCK_AT`. |
+| `npm run token:burn:mainnet` | `CONFIRM_BURN` | `BURN` | Burns the signer's tokens only when the implementation has `burn(uint256)`. |
+| `npm run pause:mainnet` | `CONFIRM_PAUSE` | `PAUSE` | Pauses transfers only when the implementation has `pause()`. |
+| `npm run unpause:mainnet` | `CONFIRM_UNPAUSE` | `UNPAUSE` | Resumes transfers only when the implementation has `unpause()`. |
+
+`LIQUIDITY_SLIPPAGE_BPS` applies to adding liquidity, removing it, and swapping. It defaults to 100 (1 percent).
+
+Renouncing ownership while transfer constraints are still on leaves those constraints on forever. Proxy admin ownership does not move when the token owner changes, and it does not disappear when the token owner renounces.
+
+The first `proxy:upgrade:mainnet` run, while the source still matches the chain, records the storage layout and does not send a transaction. A later run, after `TokenV2` has changed, deploys the new implementation and upgrades the proxy. Balances and ownership stay on the proxy.
+
+```bash
+CONFIRM_MAINNET_DEPLOYMENT=true CONFIRM_SWAP=true \
+SWAP_BTCB_AMOUNT=0.0001 \
+npm run swap:mainnet
+```
+
+```bash
+CONFIRM_MAINNET_DEPLOYMENT=true CONFIRM_REMOVE_LIQUIDITY=true \
+npm run liquidity:remove:mainnet
+```
+
+```bash
+CONFIRM_MAINNET_DEPLOYMENT=true CONFIRM_TRANSFER=true \
+TRANSFER_TO=<wallet-that-should-receive-the-tokens> \
+TRANSFER_AMOUNT=1000 \
+npm run token:transfer:mainnet
+```
+
+```bash
+CONFIRM_MAINNET_DEPLOYMENT=true CONFIRM_TRANSFER_OWNERSHIP=true \
+NEW_OWNER=<wallet-that-should-own-the-token> \
+npm run ownership:transfer:mainnet
+```
+
+```bash
+CONFIRM_MAINNET_DEPLOYMENT=true CONFIRM_RENOUNCE_OWNERSHIP=true \
+npm run ownership:renounce:mainnet
+```
+
+```bash
+CONFIRM_MAINNET_DEPLOYMENT=true CONFIRM_UPGRADE=true \
+npm run proxy:upgrade:mainnet
+```
+
+Replace `<wallet-that-should-receive-the-tokens>` and `<wallet-that-should-own-the-token>` with addresses you control before running those two commands.

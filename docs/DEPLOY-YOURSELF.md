@@ -476,7 +476,7 @@ More detail is in [VERIFICATION.md](VERIFICATION.md).
 
 Skip this entire section until you mean to allow transfers to and from the two pool addresses. Deployment is already finished without it.
 
-The owner wallet can turn the switch off once. This rulebook has no command to turn it back on. Turning it off does not add liquidity and does not list the token anywhere.
+The owner wallet can turn the switch off once. This rulebook has no command to turn it back on. Turning it off does not add liquidity and does not list the token anywhere. The liquidity command is separate and is documented in [ADD-LIQUIDITY.md](ADD-LIQUIDITY.md).
 
 Test network:
 

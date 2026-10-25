@@ -66,6 +66,8 @@ const config: HardhatUserConfig = {
       url: bscTestnetRpc,
       chainId: 97,
       accounts,
+      // BSC testnet rejects tips under 0.1 gwei. 1 gwei clears that floor.
+      gasPrice: 1_000_000_000,
     },
     bsc: {
       url: bscMainnetRpc,
