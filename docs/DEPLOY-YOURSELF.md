@@ -75,8 +75,8 @@ Default settings, which you can change before you deploy:
 
 | Setting | Default | Can you change it later? |
 | --- | --- | --- |
-| Name | BTC Token | No. Choose it before mainnet. |
-| Symbol | BTC | No. The symbol is a label. This token is not Bitcoin, it is not issued by Binance, and it is not backed by Bitcoin. |
+| Name | Independent Token | No. Choose it before mainnet. |
+| Symbol | INDT | No. The symbol is a label. This token is not Bitcoin, it is not issued by Binance, and it is not backed by Bitcoin. |
 | Decimals | 18 | No. The contract always uses 18. |
 | Supply | 1,000,000,000 whole tokens | No extra mint in this rulebook. All of them are created in your deployment wallet. |
 | Owner | Your deployment wallet | Only if you later choose to transfer ownership. This guide does not do that. |
@@ -191,7 +191,7 @@ Stay in this `bsc-token` folder for every later command. If you open a new termi
 
 ## 5. Practice with no money and no wallet
 
-This step uses a temporary chain inside the command. It ignores `.env` when you have not created that file yet. It spends nothing. When the command finishes, the practice token disappears. That is expected.
+This step uses a temporary chain inside the command. It spends nothing. Owner, recipient, pool, and metadata lines in `.env` are not used here. Name, symbol, and supply are used when `.env` sets them. When the command finishes, the practice token disappears. That is expected.
 
 ```bash
 npm run compile
@@ -205,9 +205,9 @@ Wait for each one to finish before you start the next.
 
 `npm run deploy:local` prints a configuration and ends with `Deployment checks passed.` It also prints a line that the practice chain discarded the token when the script exited. You should see:
 
-- name `BTC Token` and symbol `BTC`, unless you already changed them
+- name `Independent Token` and symbol `INDT`, unless you already changed them
 - decimals `18`
-- supply `1000000000`
+- supply `1000000000`, unless `TOKEN_INITIAL_SUPPLY` is set
 - transfer constraints enabled
 - the proxy, implementation, and proxy admin addresses
 
@@ -250,8 +250,8 @@ BSC_MAINNET_RPC_URL=https://bsc-dataseed.bnbchain.org
 # Leave empty until you choose to publish the source on BscScan.
 BSCSCAN_API_KEY=
 
-TOKEN_NAME=BTC Token
-TOKEN_SYMBOL=BTC
+TOKEN_NAME=Independent Token
+TOKEN_SYMBOL=INDT
 TOKEN_DECIMALS=18
 TOKEN_INITIAL_SUPPLY=1000000000
 
@@ -299,8 +299,8 @@ A simple file looks like this:
 
 ```json
 {
-  "name": "BTC Token",
-  "symbol": "BTC",
+  "name": "Independent Token",
+  "symbol": "INDT",
   "decimals": 18,
   "description": "An independent token on BNB Smart Chain. It is not Bitcoin, it is not issued by Binance, and it is not backed by Bitcoin.",
   "image": "https://example.com/your-logo.png"

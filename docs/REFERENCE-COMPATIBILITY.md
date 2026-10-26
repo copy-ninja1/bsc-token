@@ -8,7 +8,7 @@ Explorer link supplied with the request:
 
 <https://bscscan.com/token/0xc66223acbb96c9bd42f3913a57a379fde0bf8888>
 
-The local source of truth for this repository is `Untitled-1`. A public source query without an API key did not return that contract's verified metadata, compiler patch, proxy address, or factory address. Those values are not invented here. This project does not claim the new token is that deployment or that it can be upgraded in place.
+The behavior below was taken from the supplied flattened reference. A public source query without an API key did not return that contract's verified metadata, compiler patch, proxy address, or factory address. Those values are not invented here. This project does not claim the new token is that deployment or that it can be upgraded in place.
 
 ## What the supplied file contains
 

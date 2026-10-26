@@ -60,7 +60,7 @@ describe("PancakeSwap V2 liquidity helpers", () => {
   });
 
   it("selects one swap side and builds the path", () => {
-    const token = "0x75466BA127F7aC937C04f0Ac20d0eB4E009f5D57";
+    const token = "0x0000000000000000000000000000000000000006";
     expect(selectSwapAmounts("0.001", undefined).direction).to.equal("quoteForToken");
     expect(selectSwapAmounts(undefined, "10").direction).to.equal("tokenForQuote");
     expect(swapPath("quoteForToken", token, BTCB)).to.deep.equal([BTCB, token]);
@@ -89,11 +89,11 @@ describe("PancakeSwap V2 liquidity helpers", () => {
   });
 
   it("blocks constrained pool transfers and rejects the implementation address", () => {
-    const proxy = "0x75466BA127F7aC937C04f0Ac20d0eB4E009f5D57";
-    const implementation = "0xBa192C782eaeE7673cA26bdB96C9D7328577770f";
-    const v2 = "0x4b01065D9E5647B800b26F759769c64767E908da";
-    const v3 = "0x0D45Fe707570c099f46f81F3841C4aC156d7010b";
-    const wallet = "0x5bbd9e1B39B0c4950eE1906237DB803639Af69f9";
+    const proxy = "0x0000000000000000000000000000000000000001";
+    const implementation = "0x0000000000000000000000000000000000000002";
+    const v2 = "0x0000000000000000000000000000000000000003";
+    const v3 = "0x0000000000000000000000000000000000000004";
+    const wallet = "0x0000000000000000000000000000000000000005";
     expect(() => assertPairNotConstrained(true, v2, v2, v3)).to.throw("configured pool");
     expect(() => assertPairNotConstrained(false, v2, v2, v3)).not.to.throw();
     expect(() => assertTransferAllowed(true, wallet, v3, v2, v3)).to.throw("constraints are still on");

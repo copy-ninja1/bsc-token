@@ -10,7 +10,10 @@ typechain-types/
 .env.*
 !.env.example
 deployments/*.json
-.openzeppelin/unknown-31337.json
+.openzeppelin/
 *.log
+*.tsbuildinfo
 .DS_Store
-docs/*
+.idea/
+.vscode/
+*.swp

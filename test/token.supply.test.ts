@@ -37,6 +37,8 @@ describe("Token supply", () => {
       if (fragment.type === "function" && "name" in fragment && typeof fragment.name === "string") {
         expect(fragment.name).to.not.equal("mint");
         expect(fragment.name).to.not.equal("burn");
+        expect(fragment.name).to.not.equal("pause");
+        expect(fragment.name).to.not.equal("unpause");
       }
     }
   });

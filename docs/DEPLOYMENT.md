@@ -24,9 +24,11 @@ npm run deploy:local
 
 Expected checks inside that process:
 
-- name `BTC Token`, symbol `BTC`, decimals `18`
-- total supply and deployer balance equal to `1000000000000000000000000000`
-- owner is the deployer
+- name `Independent Token`, symbol `INDT`, decimals `18`, unless `.env` sets another name, symbol, or supply
+- total supply and deployer balance equal to `1000000000000000000000000000` when `TOKEN_INITIAL_SUPPLY` is unset or `1000000000`
+- owner is the connected Hardhat account
+
+Owner, recipient, pool, and metadata values in `.env` are not used for this local run. They apply on BSC testnet and mainnet. The printed pool addresses are Hardhat accounts.
 - constraints are enabled
 - implementation supply and owner are zero
 - proxy admin and implementation slots match the deployed contracts

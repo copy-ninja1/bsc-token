@@ -1,5 +1,7 @@
 # Security
 
+Report an undisclosed vulnerability through [SECURITY.md](../SECURITY.md). Do not open a public issue for it.
+
 This repository has not been independently audited. Tests, compiler checks, and OpenZeppelin's upgrade validator are not a substitute for an audit. A verified source listing on BscScan is also not an audit.
 
 Static analysis:

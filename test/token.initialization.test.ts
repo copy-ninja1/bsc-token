@@ -12,7 +12,7 @@ describe("Token initialization", () => {
     const { token, config, deployer } = await loadFixture(deployTokenFixture);
 
     expect(await token.name()).to.equal(config.name);
-    expect(await token.symbol()).to.equal("BTC");
+    expect(await token.symbol()).to.equal("INDT");
     expect(await token.decimals()).to.equal(18n);
     expect(await token.owner()).to.equal(deployer.address);
     expect(await token.metaURI()).to.equal(LOCAL_METADATA_URI);
@@ -60,16 +60,16 @@ describe("Token initialization", () => {
     const { config } = await loadFixture(deployTokenFixture);
 
     await expect(
-      deployProxyWith(config.v2PoolAddress, config.v3PoolAddress, "", "BTC", config.metadataURI, SUPPLY),
+      deployProxyWith(config.v2PoolAddress, config.v3PoolAddress, "", "INDT", config.metadataURI, SUPPLY),
     ).to.be.revertedWith("Token: name is empty");
     await expect(
-      deployProxyWith(config.v2PoolAddress, config.v3PoolAddress, "BTC Token", "", config.metadataURI, SUPPLY),
+      deployProxyWith(config.v2PoolAddress, config.v3PoolAddress, "Independent Token", "", config.metadataURI, SUPPLY),
     ).to.be.revertedWith("Token: symbol is empty");
     await expect(
-      deployProxyWith(config.v2PoolAddress, config.v3PoolAddress, "BTC Token", "BTC", "", SUPPLY),
+      deployProxyWith(config.v2PoolAddress, config.v3PoolAddress, "Independent Token", "INDT", "", SUPPLY),
     ).to.be.revertedWith("Token: metadata URI is empty");
     await expect(
-      deployProxyWith(config.v2PoolAddress, config.v3PoolAddress, "BTC Token", "BTC", config.metadataURI, 0n),
+      deployProxyWith(config.v2PoolAddress, config.v3PoolAddress, "Independent Token", "INDT", config.metadataURI, 0n),
     ).to.be.revertedWith("Token: max supply is zero");
   });
 });

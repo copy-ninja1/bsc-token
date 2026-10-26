@@ -1,8 +1,8 @@
 # Architecture
 
-## What was in the supplied source
+## Reference source
 
-The workspace contained one flattened file, `Untitled-1`. It includes:
+The token follows a supplied flattened `TokenV2` reference. That reference includes:
 
 - `TokenV2`, which inherits `ITokenV2`, `ERC20PermitUpgradeable`, and `OwnableUpgradeable`
 - `ITokenV2`

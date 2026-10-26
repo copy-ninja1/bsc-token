@@ -3,8 +3,8 @@ import { expect } from "chai";
 import { describeLock, parseUnlockTimestamp, readLock, type PinkLockView } from "../scripts/lib/pinkLock";
 import { bytecodeHasSelector } from "../scripts/lib/selectors";
 
-const TOKEN = "0x75466BA127F7aC937C04f0Ac20d0eB4E009f5D57";
-const OWNER = "0x5bbd9e1B39B0c4950eE1906237DB803639Af69f9";
+const TOKEN = "0x0000000000000000000000000000000000000006";
+const OWNER = "0x0000000000000000000000000000000000000007";
 
 function lock(overrides: Partial<PinkLockView> = {}): PinkLockView {
   return {

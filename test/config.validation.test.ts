@@ -1,7 +1,12 @@
 import { expect } from "chai";
 import { ethers } from "hardhat";
 
-import { DEFAULT_RAW_INITIAL_SUPPLY, LOCAL_METADATA_URI, resolveTokenConfig } from "../config/token.config";
+import {
+  DEFAULT_RAW_INITIAL_SUPPLY,
+  LOCAL_METADATA_URI,
+  resolveTokenConfig,
+  selectTokenEnv,
+} from "../config/token.config";
 
 const DEPLOYER = "0x0000000000000000000000000000000000000001";
 const V2 = "0x0000000000000000000000000000000000000002";
@@ -23,14 +28,38 @@ describe("Deployment configuration", () => {
       metadataURI: LOCAL_METADATA_URI,
     });
 
-    expect(config.name).to.equal("BTC Token");
-    expect(config.symbol).to.equal("BTC");
+    expect(config.name).to.equal("Independent Token");
+    expect(config.symbol).to.equal("INDT");
     expect(config.decimals).to.equal(18);
     expect(config.initialSupply).to.equal("1000000000");
     expect(config.rawInitialSupply).to.equal(DEFAULT_RAW_INITIAL_SUPPLY);
     expect(config.initialOwner).to.equal(ethers.getAddress(DEPLOYER));
     expect(config.initialSupplyRecipient).to.equal(ethers.getAddress(DEPLOYER));
     expect(config.usingLocalDefaults).to.equal(true);
+  });
+
+  it("keeps name and supply on a local network and ignores address settings", () => {
+    const selected = selectTokenEnv(
+      {
+        ...PUBLIC_ENV,
+        TOKEN_NAME: "Independent Token",
+        TOKEN_INITIAL_SUPPLY: "1000000000",
+      },
+      "local",
+    );
+    expect(selected.INITIAL_OWNER).to.equal(undefined);
+    expect(selected.UNISWAP_V2_POOL_ADDRESS).to.equal(undefined);
+    expect(selected.TOKEN_METADATA_URI).to.equal(undefined);
+    expect(selected.TOKEN_NAME).to.equal("Independent Token");
+
+    const config = resolveTokenConfig(selected, "hardhat", DEPLOYER, {
+      v2PoolAddress: V2,
+      v3PoolAddress: V3,
+      metadataURI: LOCAL_METADATA_URI,
+    });
+    expect(config.usingLocalDefaults).to.equal(true);
+    expect(config.initialOwner).to.equal(ethers.getAddress(DEPLOYER));
+    expect(selectTokenEnv(PUBLIC_ENV, "mainnet").INITIAL_OWNER).to.equal(DEPLOYER);
   });
 
   it("accepts an explicit public-network configuration", () => {

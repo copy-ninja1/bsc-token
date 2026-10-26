@@ -1,6 +1,6 @@
 # Independent BNB Smart Chain token
 
-This repository contains an ERC-20 token for BNB Smart Chain. The default name is **BTC Token** and the default symbol is **BTC**.
+This repository contains an ERC-20 token for BNB Smart Chain. The default name is **Independent Token** and the default symbol is **INDT**.
 
 This token is an independent asset. It is not Bitcoin, it is not issued by Binance, and it is not backed by Bitcoin. The symbol is configuration, not a claim of identity.
 
@@ -12,8 +12,8 @@ The implementation follows the supplied `TokenV2` reference where that behavior 
 
 | Setting | Default |
 | --- | --- |
-| Name | BTC Token |
-| Symbol | BTC |
+| Name | Independent Token |
+| Symbol | INDT |
 | Decimals | 18 |
 | Initial supply | 1,000,000,000 tokens |
 | Raw supply | 1000000000000000000000000000 |
@@ -44,6 +44,20 @@ Tested with Node.js **22.21.1** and npm **10.9.4**.
 | OpenZeppelin Hardhat Upgrades | 3.9.1 |
 
 Hardhat 2 is pinned because `@openzeppelin/hardhat-upgrades` 3.9.1 supports it together with OpenZeppelin Contracts 4.9. The current Hardhat 3 line requires a different upgrades plugin and is not used here.
+
+## Repository layout
+
+```text
+contracts/          TokenV2, ITokenV2, and the proxy artifact anchor
+config/             Compiler, network, and token deployment settings
+scripts/            Deployment, verification, and explicit mainnet actions
+scripts/lib/        Shared script helpers
+test/               Hardhat tests and the shared fixture
+metadata/           Sample off-chain metadata. Not written on-chain by itself
+docs/               Deployment, tokenomics, architecture, and risk notes
+```
+
+`deployments/*.json` is written by the scripts and gitignored. It is a local record of addresses and initialization calldata, not source code.
 
 Network parameters come from the BNB Chain documentation:
 
@@ -81,7 +95,7 @@ npm run test:coverage
 
 ## Deploy locally
 
-The in-process Hardhat network needs no `.env`. Pool addresses default to Hardhat test accounts and are printed as test accounts, not Uniswap pools.
+The in-process Hardhat network does not use the public deployment wallet. Owner, recipient, pool, and metadata values in `.env` apply on BSC testnet and mainnet. A local run uses the connected Hardhat accounts and prints those pool addresses as test accounts, not Uniswap pools. Name, symbol, decimals, and supply still come from `.env` when they are set.
 
 ```bash
 npm run deploy:local
@@ -120,7 +134,7 @@ Mainnet deployment is a separate command. It fails unless `CONFIRM_MAINNET_DEPLO
 npm run deploy:mainnet
 ```
 
-Read [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md) before using it. This repository does not submit a mainnet transaction on its own.
+Read [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md) before using it. Tests, `npm run compile`, and CI do not run this command and do not send a mainnet transaction.
 
 Adding PancakeSwap liquidity is also separate. It spends the token and BTCB from the signer, and it leaves the LP tokens in that wallet:
 
@@ -129,6 +143,8 @@ npm run liquidity:add:mainnet
 ```
 
 The other mainnet commands are `liquidity:remove:mainnet`, `liquidity:lock:mainnet`, `liquidity:inspect:mainnet`, `swap:mainnet`, `balance:mainnet`, `supply:mainnet`, `allowance:mainnet`, `approval:revoke:mainnet`, `token:transfer:mainnet`, `token:burn:mainnet`, `pause:mainnet`, `unpause:mainnet`, `ownership:transfer:mainnet`, `ownership:renounce:mainnet`, and `proxy:upgrade:mainnet`. Read [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md) and [docs/ADD-LIQUIDITY.md](docs/ADD-LIQUIDITY.md) before running them. Deployment does not run these commands.
+
+`TokenV2` has no `burn`, `pause`, or `unpause` function. `token:burn:mainnet`, `pause:mainnet`, and `unpause:mainnet` inspect the current implementation and exit without sending a transaction when that function is absent. A later upgrade could add them. That upgrade is a separate, confirmed mainnet action.
 
 ## After deployment
 
@@ -160,3 +176,11 @@ npm run constraints:remove:testnet
 - `A deployment record already exists` is the idempotency guard. Set `ALLOW_REDEPLOY=true` only when a second token deployment is intentional.
 - An implementation address is not the token. Users must interact with the proxy.
 - A verified source listing is not an audit.
+
+## Contributing
+
+See [CONTRIBUTING.md](CONTRIBUTING.md). Report undisclosed vulnerabilities through [SECURITY.md](SECURITY.md). Design limitations of this implementation are in [docs/SECURITY.md](docs/SECURITY.md).
+
+## License
+
+Solidity sources declare `SPDX-License-Identifier: MIT`. This repository does not yet include a root `LICENSE` file. Choose one before publishing the repository. Do not treat the SPDX headers as a license grant for the whole project until that file exists.

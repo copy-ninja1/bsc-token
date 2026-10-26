@@ -56,8 +56,8 @@ describe("Transfer constraints", () => {
       deployProxyWith(
         ethers.ZeroAddress,
         config.v3PoolAddress,
-        "BTC Token",
-        "BTC",
+        "Independent Token",
+        "INDT",
         LOCAL_METADATA_URI,
         DEFAULT_RAW_INITIAL_SUPPLY,
       ),
@@ -66,8 +66,8 @@ describe("Transfer constraints", () => {
       deployProxyWith(
         config.v2PoolAddress,
         ethers.ZeroAddress,
-        "BTC Token",
-        "BTC",
+        "Independent Token",
+        "INDT",
         LOCAL_METADATA_URI,
         DEFAULT_RAW_INITIAL_SUPPLY,
       ),
@@ -76,8 +76,8 @@ describe("Transfer constraints", () => {
       deployProxyWith(
         deployer.address,
         config.v3PoolAddress,
-        "BTC Token",
-        "BTC",
+        "Independent Token",
+        "INDT",
         LOCAL_METADATA_URI,
         DEFAULT_RAW_INITIAL_SUPPLY,
       ),
@@ -86,8 +86,8 @@ describe("Transfer constraints", () => {
       deployProxyWith(
         config.v2PoolAddress,
         deployer.address,
-        "BTC Token",
-        "BTC",
+        "Independent Token",
+        "INDT",
         LOCAL_METADATA_URI,
         DEFAULT_RAW_INITIAL_SUPPLY,
       ),
@@ -114,8 +114,8 @@ describe("Transfer constraints", () => {
       token.initialize(
         await proxy.getAddress(),
         pool.address,
-        "BTC Token",
-        "BTC",
+        "Independent Token",
+        "INDT",
         LOCAL_METADATA_URI,
         DEFAULT_RAW_INITIAL_SUPPLY,
       ),
@@ -124,8 +124,8 @@ describe("Transfer constraints", () => {
       token.initialize(
         pool.address,
         await proxy.getAddress(),
-        "BTC Token",
-        "BTC",
+        "Independent Token",
+        "INDT",
         LOCAL_METADATA_URI,
         DEFAULT_RAW_INITIAL_SUPPLY,
       ),
@@ -134,8 +134,8 @@ describe("Transfer constraints", () => {
     const duplicate = await deployProxyWith(
       pool.address,
       pool.address,
-      "BTC Token",
-      "BTC",
+      "Independent Token",
+      "INDT",
       LOCAL_METADATA_URI,
       DEFAULT_RAW_INITIAL_SUPPLY,
     );

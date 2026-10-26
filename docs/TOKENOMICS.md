@@ -4,8 +4,8 @@
 
 | Item | Value |
 | --- | --- |
-| Default name | BTC Token |
-| Default symbol | BTC |
+| Default name | Independent Token |
+| Default symbol | INDT |
 | Decimals | 18 |
 | Initial supply | 1,000,000,000 tokens |
 | Base units | 1000000000000000000000000000 |

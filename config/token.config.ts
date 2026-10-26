@@ -34,18 +34,34 @@ export interface TokenEnv {
   UNISWAP_V3_POOL_ADDRESS?: string;
 }
 
+/**
+ * Local Hardhat signers are not the public deployment wallet.
+ * Address settings in the environment apply only on testnet and mainnet.
+ */
+export function selectTokenEnv(env: TokenEnv, kind: NetworkKind): TokenEnv {
+  if (kind !== "local") {
+    return env;
+  }
+  return {
+    TOKEN_NAME: env.TOKEN_NAME,
+    TOKEN_SYMBOL: env.TOKEN_SYMBOL,
+    TOKEN_DECIMALS: env.TOKEN_DECIMALS,
+    TOKEN_INITIAL_SUPPLY: env.TOKEN_INITIAL_SUPPLY,
+  };
+}
+
 export interface LocalDefaults {
   v2PoolAddress: string;
   v3PoolAddress: string;
   metadataURI: string;
 }
 
-export const DEFAULT_TOKEN_NAME = "BTC Token";
-export const DEFAULT_TOKEN_SYMBOL = "BTC";
+export const DEFAULT_TOKEN_NAME = "Independent Token";
+export const DEFAULT_TOKEN_SYMBOL = "INDT";
 export const TOKEN_DECIMALS = 18;
 export const DEFAULT_INITIAL_SUPPLY = "1000000000";
 export const DEFAULT_RAW_INITIAL_SUPPLY = ethers.parseUnits(DEFAULT_INITIAL_SUPPLY, TOKEN_DECIMALS);
-export const LOCAL_METADATA_URI = "https://example.com/independent-btc-token.json";
+export const LOCAL_METADATA_URI = "https://example.com/independent-token.json";
 
 const METADATA_URI_PATTERN = /^(https:\/\/|ipfs:\/\/)[^\s]+$/;
 const WHOLE_NUMBER_PATTERN = /^\d+$/;

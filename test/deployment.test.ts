@@ -66,8 +66,8 @@ describe("Proxy deployment", () => {
     await taken.initialize(
       v2.address,
       v3.address,
-      "BTC Token",
-      "BTC",
+      "Independent Token",
+      "INDT",
       LOCAL_METADATA_URI,
       DEFAULT_RAW_INITIAL_SUPPLY,
     );
